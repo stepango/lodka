@@ -93,6 +93,7 @@ fetch_issue() {
       id
       identifier
       title
+      priority
       description
       url
       createdAt
@@ -124,6 +125,7 @@ fetch_todo_issue() {
           id
           identifier
           title
+          priority
           description
           url
           createdAt
@@ -146,6 +148,7 @@ fetch_todo_issue() {
           id
           identifier
           title
+          priority
           description
           url
           createdAt
@@ -162,8 +165,10 @@ fetch_todo_issue() {
   jq -c --arg state_name "$todo_state_name" '
     .data.issues.nodes
     | map(select(.state.name == $state_name))
-    | sort_by(.createdAt)
+    | map(. + {priority_rank: (if (.priority // 0) == 0 then 5 else (.priority // 5) end)})
+    | sort_by(.priority_rank, .createdAt)
     | .[0]
+    | del(.priority_rank)
   ' <<<"$response"
 }
 
