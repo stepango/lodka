@@ -6,7 +6,7 @@ This repo contains a single Bash workflow script:
 
 It:
 
-1. Reads a Linear issue in `Todo` by default.
+1. Reads the highest-priority Linear issue in `Todo` by default.
 2. Switches to a feature branch.
 3. Runs a configurable implementation hook.
 4. Commits and pushes the result.
